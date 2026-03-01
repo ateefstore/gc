@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATEEF STORE | VIP VORTEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff002b;
+            --primary-glow: #ff003c;
+            --bg-dark: #020000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            scrollbar-width: none; 
+        }
+        ::-webkit-scrollbar { display: none; }
+
+        body {
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* -------------------------------------
+           MASSIVE CSS GLOW ORBS (GPU BURNERS)
+        ---------------------------------------- */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(150px); /* Heavy CSS rendering */
+            z-index: -1;
+            animation: orbFloat 10s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 40vw; height: 40vw;
+            background: rgba(255, 0, 43, 0.2);
+            top: -10%; left: -10%;
+        }
+        .orb-2 {
+            width: 50vw; height: 50vw;
+            background: rgba(150, 0, 0, 0.15);
+            bottom: -20%; right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(100px, 100px) scale(1.5); opacity: 1; }
+        }
+
+        /* -------------------------------------
+           3D WEBGL CANVAS
+        ---------------------------------------- */
+        #webgl-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            filter: contrast(130%) brightness(110%);
+        }
+
+        /* -------------------------------------
+           UI LAYOUT & GLASSMORPHISM
+        ---------------------------------------- */
+        main {
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 3D TILT GLASS CARD */
+        .tilt-card {
+            background: rgba(15, 0, 0, 0.4);
+            border: 1px solid rgba(255, 0, 43, 0.4);
+            backdrop-filter: blur(15px); /* Expensive GPU effect */
+            -webkit-backdrop-filter: blur(15px);
+            padding: 50px 40px;
+            border-radius: 20px;
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.5),
+                inset 0 0 30px rgba(255, 0, 43, 0.1);
+            /* Tilt properties */
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
+            will-change: transform;
+        }
+
+        /* Card Inner Elements (Pop out in 3D) */
+        .card-content {
+            transform: translateZ(50px); /* Pushes content out of the glass */
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 
+                0 0 10px #fff, 
+                0 0 20px var(--primary-glow), 
+                0 0 60px var(--primary-glow);
+            animation: pulseText 2s infinite alternate;
+        }
+
+        @keyframes pulseText {
+            0% { text-shadow: 0 0 10px #fff, 0 0 20px var(--primary-glow); }
+            100% { text-shadow: 0 0 10px #fff, 0 0 30px var(--primary-glow), 0 0 80px var(--primary-glow); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ff8095;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+        }
+
+        /* VIP Benefits List */
+        .benefits {
+            text-align: left;
+            margin: 30px 0;
+            display: inline-block;
+        }
+
+        .benefits p {
+            font-family: sans-serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateZ(30px);
+        }
+
+        .benefits p::before {
+            content: '';
+            display: block;
+            width: 12px; height: 12px;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
+            border-radius: 50%;
+        }
+
+        /* Cyber Button */
+        .cyber-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
+            text-decoration: none;
+            background: linear-gradient(45deg, rgba(255,0,43,0.1), rgba(255,0,43,0.3));
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px var(--primary-glow), inset 0 0 15px var(--primary-glow);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateZ(60px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-45deg);
+            transition: 0.5s;
+        }
+
+        .cyber-btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 50px var(--primary-glow);
+            transform: translateZ(80px) scale(1.1);
+        }
+
+        .cyber-btn:hover::before {
+            left: 150%;
+        }
+
+        .socials {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            transform: translateZ(40px);
+        }
+
+        .socials a {
+            color: #ffb3c1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            color: #ff4d6d;
+            animation: scrolldown 1.5s infinite;
+        }
+
+        @keyframes scrolldown {
+            0% { transform: translate(-50%, 0); opacity: 1; }
+            100% { transform: translate(-50%, 20px); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <canvas id="webgl-canvas"></canvas>
+
+    <main>
+        <section>
+            <div class="tilt-card" id="card1">
+                <div class="card-content">
+                    <h1>ATEEF STORE</h1>
+                    <p class="subtitle">PREMIUM LEVEL EXPERIENCE</p>
+                    <a href="https://t.me/+NdkRWR1ogbZhYTJl" target="_blank" class="cyber-btn">🚀 INITIALIZE VIP</a>
+                </div>
+            </div>
+            <div class="scroll-down">SCROLL TO DESCEND 🔻</div>
+        </section>
+
+        <section>
+            <div class="tilt-card" id="card2">
+                <div class="card-content">
+                    <h1 style="font-size: 3rem;">VIP ACCESS</h1>
+                    <div class="benefits">
+                        <p>100% Ads-Free Experience</p>
+                        <p>Unlimited Movies & Web Series</p>
+                        <p>Exclusive Verified Access Only</p>
+                        <p>High-Speed GPU Panel Server</p>
+                    </div>
+                    <div class="socials">
+                        <a href="https://instagram.com/ateefstore" target="_blank">Instagram (Store)</a>
+                        <a href="https://instagram.com/ateefkhan26" target="_blank">Instagram (Personal)</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // --------------------------------------------------------
+        // 1. 3D TILT EFFECT FOR CARDS (Vanilla JS)
+        // --------------------------------------------------------
+        const cards = document.querySelectorAll('.tilt-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element
+                const y = e.clientY - rect.top;  // y position within the element
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -15; // Max 15 deg tilt
+                const rotateY = ((x - centerX) / centerX) * 15;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                card.style.transition = 'transform 0.5s ease';
+            });
+
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none'; // Remove transition for smooth tracking
+            });
+        });
+
+        // --------------------------------------------------------
+        // 2. MASSIVE THREE.JS VORTEX & WIREFRAME CORE
+        // --------------------------------------------------------
+        const canvas = document.querySelector('#webgl-canvas');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x020000, 0.001);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
+        camera.position.z = 800;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // A. Create Massive Twisting Wireframe Core (The Heart)
+        const coreGeo = new THREE.TorusKnotGeometry(200, 60, 100, 16);
+        const coreMat = new THREE.MeshBasicMaterial({ 
+            color: 0xff002b, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        scene.add(core);
+
+        // B. Create 20,000 Particle Vortex
+        const particlesCount = window.innerWidth < 768 ? 8000 : 20000;
+        const geometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i+=3) {
+            // Math magic to create a cylinder/vortex shape
+            const radius = Math.random() * 1500 + 200;
+            const theta = Math.random() * Math.PI * 2;
+            const y = (Math.random() - 0.5) * 3000;
+
+            posArray[i] = Math.cos(theta) * radius;     // x
+            posArray[i+1] = y;                          // y
+            posArray[i+2] = Math.sin(theta) * radius;   // z
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 2,
+            color: 0xff003c,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particlesMesh = new THREE.Points(geometry, material);
+        scene.add(particlesMesh);
+
+        // --------------------------------------------------------
+        // 3. SCROLL & MOUSE PARALLAX INTERACTIONS
+        // --------------------------------------------------------
+        let mouseX = 0; let mouseY = 0;
+        let targetX = 0; let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX - windowHalfX);
+            mouseY = (e.clientY - windowHalfY);
+        });
+
+        // Blender-Level Scroll Zoom
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            camera.position.z = 800 - (scrollY * 0.8); // Zoom into the vortex
+            core.rotation.z = scrollY * 0.002; // Twist the core on scroll
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --------------------------------------------------------
+        // 4. HIGH-PERFORMANCE RENDER LOOP
+        // --------------------------------------------------------
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // Rotate the core smoothly
+            core.rotation.x = time * 0.2;
+            core.rotation.y = time * 0.3;
+
+            // Rotate the entire particle vortex
+            particlesMesh.rotation.y = time * 0.1;
+
+            // Smooth mouse camera parallax
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+            
+            camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
